@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>欢乐购物街 - 认识人民币 | 真钱图像 + 语音播报答案</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f9e7b3 0%, #f5cda0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .market-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 56px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff9a6e, #ff6f3c);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            color: white;
+            border-bottom: 5px solid #ffcf9a;
+        }
+        .title-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .title-area i {
+            font-size: 48px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+            animation: bounce 2s infinite;
+        }
+        .title-area h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            text-shadow: 3px 3px 0 #b4511e;
+        }
+        .mascot {
+            background: #ffecb3;
+            border-radius: 100px;
+            padding: 8px 20px;
+            color: #c25d2e;
+            font-weight: bold;
+            display: flex;
+            gap: 8px;
+        }
+        .shopping-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 24px 30px;
+            background: #fff4e6;
+        }
+        .goods-section {
+            flex: 2;
+            min-width: 260px;
+            background: #ffe6ce;
+            border-radius: 48px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        }
+        .cart-section {
+            flex: 1.4;
+            min-width: 340px;
+            background: #fffaf2;
+            border-radius: 48px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            border-left: 12px solid #ff8c42;
+            padding-left: 18px;
+            margin-bottom: 18px;
+            color: #4b2e1a;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 18px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 32px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 0 #d6b17e;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-emoji {
+            font-size: 48px;
+        }
+        .product-name {
+            font-weight: 800;
+            margin: 8px 0 4px;
+        }
+        .product-price {
+            background: #fdebb3;
+            border-radius: 40px;
+            padding: 4px 10px;
+            font-weight: bold;
+            color: #c24200;
+            display: inline-block;
+            margin: 6px 0;
+            font-size: 0.9rem;
+        }
+        .add-btn {
+            background: #ffb347;
+            border: none;
+            padding: 8px 0;
+            width: 100%;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin-top: 6px;
+            box-shadow: 0 3px 0 #b4621a;
+            transition: 0.05s linear;
+        }
+        .add-btn:active {
+            transform: translateY(2px);
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.3rem;
+            border-bottom: 3px dashed #ffb46e;
+            padding-bottom: 8px;
+        }
+        .cart-items {
+            max-height: 260px;
+            overflow-y: auto;
+        }
+        .cart-item {
+            background: #fff2e2;
+            border-radius: 50px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-item-info {
+            flex: 2;
+        }
+        .cart-item-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .qty-btn {
+            background: #ffc38b;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .cart-total {
+            background: #ffdec2;
+            border-radius: 40px;
+            padding: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+        .payment-panel {
+            background: #e9dfcd;
+            border-radius: 40px;
+            padding: 16px;
+        }
+        .pay-info {
+            background: white;
+            border-radius: 28px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+        .pay-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            font-size: 1rem;
+        }
+        .money-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 12px 0;
+        }
+        .coin-btn {
+            background: #f9c78c;
+            border: none;
+            font-weight: bold;
+            padding: 8px 14px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #a6652c;
+            transition: 0.05s;
+        }
+        .coin-btn:active { transform: translateY(2px);}
+        .pay-actions {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .btn-primary {
+            background: #47b05c;
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 60px;
+            flex: 1;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background: #ff9f4a;
+            box-shadow: 0 2px 0 #b4621a;
+        }
+        .direct-pay {
+            background: #f7e9d7;
+            border-radius: 40px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        .direct-pay-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .yuanjiaofen-input {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .yuanjiaofen-input div {
+            background: white;
+            border-radius: 60px;
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .yuanjiaofen-input input {
+            width: 70px;
+            border: 1px solid #e6c394;
+            border-radius: 40px;
+            padding: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .message-area {
+            background: #fff0cf;
+            border-radius: 60px;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        .math-activities {
+            margin: 0 30px 30px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+        }
+        .activity-card {
+            background: #fffaf0;
+            border-radius: 48px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            border: 2px solid #ffe0b5;
+        }
+        .activity-card h3 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c25d2e;
+            border-bottom: 3px dotted #ffcb9a;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .activity-question {
+            background: #fff0df;
+            padding: 14px;
+            border-radius: 32px;
+            margin: 12px 0;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .activity-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .activity-input {
+            padding: 8px 12px;
+            border-radius: 60px;
+            border: 1px solid #e6c394;
+            text-align: center;
+            width: 90px;
+            font-weight: bold;
+        }
+        .choice-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 12px 0;
+        }
+        .choice-label {
+            background: #ffe1b9;
+            padding: 6px 16px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .choice-label.selected {
+            background: #ffb45e;
+            color: white;
+        }
+        .act-btn {
+            background: #ffb45e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 60px;
+            font-weight: bold;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .act-feedback {
+            font-size: 0.85rem;
+            margin-top: 12px;
+            padding: 6px;
+            text-align: center;
+            border-radius: 40px;
+            background: #fff0cf;
+        }
+        .correct-feedback { background: #c8e6d9; color: #1f5a2e; }
+        .wrong-feedback { background: #ffe0b5; color: #c24200; }
+        @keyframes bounce {
+            0%,100%{ transform: translateY(0);}
+            50%{ transform: translateY(-5px);}
+        }
+        button { cursor: pointer; }
+        .money-canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            background: #f9e5c1;
+        }
+        .canvas-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="market-container">
+    <div class="header">
+        <div class="title-area">
+            <i class="fas fa-store"></i>
+            <h1>欢乐购物街 · 认识人民币</h1>
+        </div>
+        <div class="mascot">
+            <i class="fas fa-microphone-alt"></i> 语音反馈 · 真实钱币图像
+        </div>
+    </div>
+    <div class="shopping-layout">
+        <div class="goods-section">
+            <div class="section-title"><i class="fas fa-candy-cane"></i> 奇妙小铺 (元角分标价)</div>
+            <div class="card-grid" id="productGrid"></div>
+        </div>
+        <div class="cart-section">
+            <div class="cart-header">
+                <span><i class="fas fa-shopping-cart"></i> 购物车</span>
+                <button id="clearCartBtn" style="background:#ebc494; border:none; padding:4px 12px; border-radius:30px;">清空</button>
+            </div>
+            <div id="cartList" class="cart-items">🛒 购物车空空如也~</div>
+            <div class="cart-total"><span>💰 总计</span><span id="cartTotalPrice">0元0角0分</span></div>
+            <div class="payment-panel">
+                <div style="font-weight:bold;"><i class="fas fa-cash-register"></i> 快乐收银台</div>
+                <div class="pay-info">
+                    <div class="pay-line">💸 应付金额：<span id="payableAmount" style="font-weight:800;">0元0角0分</span></div>
+                    <div class="pay-line">🪙 已付金额：<span id="paidAmount">0元0角0分</span></div>
+                    <div class="pay-line">🧮 还需支付：<span id="needPay">0元0角0分</span></div>
+                </div>
+                <div class="money-buttons" id="moneyButtonsArea"></div>
+                <div class="direct-pay">
+                    <div class="direct-pay-title"><i class="fas fa-hand-holding-usd"></i> 自定义付款（元角分）</div>
+                    <div class="yuanjiaofen-input">
+                        <div><span>元</span> <input type="number" id="payYuan" min="0" value="0" step="1" style="width:70px;"></div>
+                        <div><span>角</span> <input type="number" id="payJiao" min="0" max="9" value="0" step="1" style="width:70px;"></div>
+                        <div><span>分</span> <input type="number" id="payFen" min="0" max="9" value="0" step="1" style="width:70px;"></div>
+                    </div>
+                    <button id="setCustomPayBtn" class="btn-secondary" style="width:100%; margin-top:5px;">设置付款金额</button>
+                </div>
+                <div class="pay-actions">
+                    <button id="resetPayBtn" class="btn-secondary">重置付款</button>
+                    <button id="confirmPayBtn" class="btn-primary">确认支付 & 语音找零</button>
+                </div>
+                <div id="messageBox" class="message-area">✨ 点击商品加购，用元角分付款～</div>
+            </div>
+        </div>
+    </div>
+    <!-- 数学活动区：认面值（真实钱币绘图）、认一认、换一换 -->
+    <div class="math-activities">
+        <!-- 升级活动：认面值 · 真实钱币图像 -->
+        <div class="activity-card" id="faceValueActivity">
+            <h3><i class="fas fa-money-bill-wave"></i> 认面值 · 看看这是多少钱？</h3>
+            <div class="canvas-container" id="moneyCanvasContainer">
+                <canvas id="moneyCanvas" width="240" height="140" class="money-canvas" style="width:100%; height:auto; max-width:280px;"></canvas>
+            </div>
+            <div class="activity-question" id="faceQuestion">🤔 这张人民币的面值是多少？</div>
+            <div id="faceOptions" class="choice-group"></div>
+            <div style="display:flex; gap:8px; justify-content:center;">
+                <button id="checkFaceBtn" class="act-btn"><i class="fas fa-check-circle"></i> 确认答案</button>
+                <button id="newFaceBtn" class="act-btn"><i class="fas fa-sync-alt"></i> 换一张钞票</button>
+            </div>
+            <div id="faceFeedback" class="act-feedback">点击选项，选出正确面值！</div>
+        </div>
+
+        <!-- 认一认活动 (单位换算选择题) -->
+        <div class="activity-card" id="recognizeActivity">
+            <h3><i class="fas fa-eye"></i> 认一认 · 单位换算</h3>
+            <div class="activity-question" id="recogQuestion"></div>
+            <div id="recogOptions" class="choice-group"></div>
+            <div style="display:flex; gap:8px; justify-content:center;">
+                <button id="checkRecogBtn" class="act-btn">确认选择</button>
+                <button id="newRecogBtn" class="act-btn">换一题</button>
+            </div>
+            <div id="recogFeedback" class="act-feedback">选择一个选项，点击确认~</div>
+        </div>
+
+        <!-- 换一换活动 (单位换算填空) -->
+        <div class="activity-card" id="exchangeActivity">
+            <h3><i class="fas fa-exchange-alt"></i> 换一换 · 换算小能手</h3>
+            <div class="activity-question" id="exchangeQuestion"></div>
+            <div class="activity-input-area" id="exchangeInputArea">
+                <input type="number" id="exchangeAnswer" placeholder="输入数字" class="activity-input" step="1">
+                <span id="exchangeUnit"></span>
+            </div>
+            <div style="display:flex; gap:8px; justify-content:center;">
+                <button id="checkExchangeBtn" class="act-btn">检查答案</button>
+                <button id="newExchangeBtn" class="act-btn">换一题</button>
+            </div>
+            <div id="exchangeFeedback" class="act-feedback">输入换算结果～</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ======================== 语音播报函数（全局）=======================
+    function speak(text) {
+        if (!window.speechSynthesis) return;
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.cancel(); // 避免重叠
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // ======================== 购物车与支付模块（全元角分无小数）========================
+    function centsToText(cents) {
+        let yuan = Math.floor(cents / 100);
+        let jiao = Math.floor((cents % 100) / 10);
+        let fen = cents % 10;
+        return `${yuan}元${jiao}角${fen}分`;
+    }
+    function formatPrice(cents) {
+        let yuan = Math.floor(cents / 100);
+        let jiao = Math.floor((cents % 100) / 10);
+        let fen = cents % 10;
+        if (fen === 0 && jiao === 0) return `${yuan}元`;
+        if (fen === 0) return `${yuan}元${jiao}角`;
+        return `${yuan}元${jiao}角${fen}分`;
+    }
+
+    const PRODUCTS = [
+        { id: 1, name: "🌈 彩色铅笔", priceCents: 850, emoji: "✏️🌈" },
+        { id: 2, name: "🧸 小熊橡皮", priceCents: 320, emoji: "🧸" },
+        { id: 3, name: "📒 星星笔记本", priceCents: 1250, emoji: "📒✨" },
+        { id: 4, name: "🚗 玩具小汽车", priceCents: 1880, emoji: "🚗" },
+        { id: 5, name: "🍬 糖果礼包", priceCents: 550, emoji: "🍬🍭" },
+        { id: 6, name: "🎒 卡通书包", priceCents: 2590, emoji: "🎒" }
+    ];
+    
+    let cart = [];
+    let currentPaidCents = 0;
+    
+    function renderCart() {
+        const cartListDiv = document.getElementById('cartList');
+        if (!cart.length) {
+            cartListDiv.innerHTML = '<div style="text-align:center; color:#c09a6b;">🛒 购物车空空如也~ 快来选购吧！</div>';
+        } else {
+            let html = '';
+            cart.forEach(item => {
+                let priceText = formatPrice(item.priceCents);
+                html += `
+                    <div class="cart-item" data-id="${item.id}">
+                        <div class="cart-item-info">
+                            <span class="cart-item-name">${item.name}</span>
+                            <span class="cart-item-price">${priceText}/件</span>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="qty-btn dec-qty" data-id="${item.id}">-</button>
+                            <span class="item-qty">${item.quantity}</span>
+                            <button class="qty-btn inc-qty" data-id="${item.id}">+</button>
+                            <button class="remove-item" data-id="${item.id}"><i class="fas fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            cartListDiv.innerHTML = html;
+        }
+        const totalCents = cart.reduce((sum, i) => sum + (i.priceCents * i.quantity), 0);
+        document.getElementById('cartTotalPrice').innerText = centsToText(totalCents);
+        document.getElementById('payableAmount').innerText = centsToText(totalCents);
+        resetPayment();
+        updatePayUI();
+        attachCartEvents();
+    }
+    
+    function resetPayment() {
+        currentPaidCents = 0;
+        document.getElementById('payYuan').value = 0;
+        document.getElementById('payJiao').value = 0;
+        document.getElementById('payFen').value = 0;
+        updatePayUI();
+    }
+    
+    function updatePayUI() {
+        const totalCents = cart.reduce((sum, i) => sum + (i.priceCents * i.quantity), 0);
+        document.getElementById('paidAmount').innerText = centsToText(currentPaidCents);
+        let need = totalCents - currentPaidCents;
+        if (need < 0) need = 0;
+        document.getElementById('needPay').innerText = centsToText(need);
+    }
+    
+    function addPaid(centValue) {
+        if (centValue <= 0) return;
+        currentPaidCents += centValue;
+        updatePayUI();
+        const totalCents = cart.reduce((sum, i) => sum + (i.priceCents * i.quantity), 0);
+        if (currentPaidCents >= totalCents && totalCents > 0) {
+            showMessage("✅ 付款金额足够啦！点击「确认支付」完成购物并语音找零~", false);
+        }
+    }
+    
+    function setCustomPay() {
+        let yuan = parseInt(document.getElementById('payYuan').value) || 0;
+        let jiao = parseInt(document.getElementById('payJiao').value) || 0;
+        let fen = parseInt(document.getElementById('payFen').value) || 0;
+        if (jiao > 9) jiao = 9;
+        if (fen > 9) fen = 9;
+        let totalCents = yuan * 100 + jiao * 10 + fen;
+        currentPaidCents = totalCents;
+        updatePayUI();
+        const cartTotal = cart.reduce((sum, i) => sum + (i.priceCents * i.quantity), 0);
+        if (currentPaidCents >= cartTotal && cartTotal > 0) {
+            showMessage(`已付金额 ${centsToText(currentPaidCents)}，可以支付啦`, false);
+        } else {
+            showMessage(`已设置付款 ${centsToText(currentPaidCents)}`, false);
+        }
+    }
+    
+    function confirmPay() {
+        const totalCents = cart.reduce((sum, i) => sum + (i.priceCents * i.quantity), 0);
+        if (totalCents === 0) {
+            showMessage("购物车是空的，请先选购商品~", true);
+            return;
+        }
+        if (currentPaidCents >= totalCents) {
+            let changeCents = currentPaidCents - totalCents;
+            let changeText = centsToText(changeCents);
+            let successMsg = changeCents > 0 ? `支付成功！找零 ${changeText}。欢迎下次光临！` : `支付成功！刚好付清，真厉害！`;
+            showMessage(successMsg, false);
+            if (changeCents > 0) {
+                speak(`找零${changeText}`);
+            } else {
+                speak("支付成功，无需找零。谢谢惠顾！");
+            }
+            cart = [];
+            renderCart();
+            resetPayment();
+        } else {
+            let needCents = totalCents - currentPaidCents;
+            showMessage(`付款金额不足，还差 ${centsToText(needCents)}，请继续添加钱币。`, true);
+        }
+    }
+    
+    function addToCart(product) {
+        let existing = cart.find(i => i.id === product.id);
+        if (existing) existing.quantity++;
+        else cart.push({ ...product, quantity: 1 });
+        renderCart();
+        showMessage(`✨ ${product.name} 加入购物车！`, false);
+    }
+    
+    function updateQuantity(id, delta) {
+        let idx = cart.findIndex(i => i.id === id);
+        if (idx !== -1) {
+            let newQty = cart[idx].quantity + delta;
+            if (newQty <= 0) cart.splice(idx, 1);
+            else cart[idx].quantity = newQty;
+            renderCart();
+        }
+    }
+    
+    function removeItem(id) {
+        cart = cart.filter(i => i.id !== id);
+        renderCart();
+    }
+    
+    function attachCartEvents() {
+        document.querySelectorAll('.dec-qty').forEach(btn => btn.onclick = (e) => updateQuantity(parseInt(btn.dataset.id), -1));
+        document.querySelectorAll('.inc-qty').forEach(btn => btn.onclick = (e) => updateQuantity(parseInt(btn.dataset.id), 1));
+        document.querySelectorAll('.remove-item').forEach(btn => btn.onclick = (e) => removeItem(parseInt(btn.dataset.id)));
+    }
+    
+    function showMessage(msg, isErr) {
+        let box = document.getElementById('messageBox');
+        box.innerHTML = isErr ? `⚠️ ${msg}` : `🎉 ${msg}`;
+        box.style.background = isErr ? "#ffe0b5" : "#c8e6d9";
+        setTimeout(() => {
+            if(document.getElementById('messageBox')) box.innerHTML = "🛍️ 元角分购物真有趣！";
+        }, 2800);
+    }
+    
+    const moneyDenominations = [
+        { label: "1元", cents: 100 }, { label: "2元", cents: 200 }, { label: "5元", cents: 500 },
+        { label: "10元", cents: 1000 }, { label: "20元", cents: 2000 },
+        { label: "1角", cents: 10 }, { label: "5角", cents: 50 },
+        { label: "1分", cents: 1 }, { label: "5分", cents: 5 }
+    ];
+    function renderMoneyButtons() {
+        const container = document.getElementById('moneyButtonsArea');
+        container.innerHTML = '';
+        moneyDenominations.forEach(m => {
+            let btn = document.createElement('button');
+            btn.className = 'coin-btn';
+            btn.innerHTML = `<i class="fas fa-coins"></i> ${m.label}`;
+            btn.onclick = () => {
+                if (cart.length === 0) { showMessage("请先添加商品再付款~", true); return; }
+                addPaid(m.cents);
+            };
+            container.appendChild(btn);
+        });
+    }
+    
+    function renderProducts() {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = '';
+        PRODUCTS.forEach(p => {
+            let card = document.createElement('div');
+            card.className = 'product-card';
+            let priceText = formatPrice(p.priceCents);
+            card.innerHTML = `
+                <div class="product-emoji">${p.emoji}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="product-price">💰 ${priceText}</div>
+                <button class="add-btn"><i class="fas fa-cart-plus"></i> 加入购物车</button>
+            `;
+            card.querySelector('.add-btn').onclick = () => addToCart(p);
+            grid.appendChild(card);
+        });
+    }
+    
+    // ======================== 绘制真实钱币图像 (Canvas) ========================
+    function drawBanknote(ctx, width, height, valueText, bgColor, pattern) {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, width, height);
+        ctx.strokeStyle = "#a67c45";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(5, 5, width-10, height-10);
+        ctx.font = `bold ${height * 0.35}px "Segoe UI", "KaiTi"`;
+        ctx.fillStyle = "#2c1a0c";
+        ctx.fillText(valueText, width*0.1, height*0.7);
+        ctx.font = `${height*0.2}px "Segoe UI"`;
+        ctx.fillStyle = "#c97e3a";
+        ctx.fillText("☆", width*0.8, height*0.25);
+        ctx.fillText("中国人民银行", width*0.1, height*0.25);
+        ctx.globalAlpha = 0.2;
+        for(let i=0;i<50;i++) {
+            ctx.fillStyle = "#a0522d";
+            ctx.fillRect(Math.random()*width, Math.random()*height, 2, 2);
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function drawCoin(ctx, size, valueText, bgColor) {
+        let centerX = size/2, centerY = size/2;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, size/2-4, 0, 2*Math.PI);
+        ctx.fillStyle = bgColor;
+        ctx.fill();
+        ctx.strokeStyle = "#b87c4f";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = "#5a3a1a";
+        ctx.font = `bold ${size*0.3}px "Segoe UI"`;
+        ctx.fillText(valueText, centerX-18, centerY+8);
+        ctx.font = `${size*0.12}px "Segoe UI"`;
+        ctx.fillStyle = "#b87c4f";
+        ctx.fillText("元", centerX+15, centerY+8);
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, size/2-8, 0, 2*Math.PI);
+        ctx.strokeStyle = "#daa520";
+        ctx.stroke();
+    }
+
+    const moneyTypes = [
+        { value: "1元", type: "paper", bg: "#c7e9c0", display: "1元纸币" },
+        { value: "5元", type: "paper", bg: "#b0d9b1", display: "5元纸币" },
+        { value: "10元", type: "paper", bg: "#b2d8e8", display: "10元纸币" },
+        { value: "20元", type: "paper", bg: "#f5d0a9", display: "20元纸币" },
+        { value: "50元", type: "paper", bg: "#e3c9a0", display: "50元纸币" },
+        { value: "100元", type: "paper", bg: "#f0c0a0", display: "100元纸币" },
+        { value: "1角", type: "coin", bg: "#e0cda6", display: "1角硬币" },
+        { value: "5角", type: "coin", bg: "#e8c985", display: "5角硬币" },
+        { value: "1分", type: "coin", bg: "#cfb284", display: "1分硬币" },
+        { value: "2分", type: "coin", bg: "#c2a36b", display: "2分硬币" }
+    ];
+    let currentMoney = null;
+    
+    function drawMoneyOnCanvas(valueStr) {
+        const canvas = document.getElementById('moneyCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width, height = canvas.height;
+        ctx.clearRect(0, 0, width, height);
+        const money = moneyTypes.find(m => m.value === valueStr);
+        if (!money) return;
+        if (money.type === "paper") {
+            drawBanknote(ctx, width, height, money.value, money.bg, null);
+        } else {
+            let size = Math.min(width, height);
+            canvas.width = width; canvas.height = height;
+            ctx.clearRect(0, 0, width, height);
+            let offsetX = (width - size)/2, offsetY = (height - size)/2;
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            drawCoin(ctx, size, money.value, money.bg);
+            ctx.restore();
+        }
+        ctx.font = "12px 'Quicksand'";
+        ctx.fillStyle = "#4e2e1a";
+        ctx.fillText(money.display, width-70, height-8);
+    }
+    
+    let currentFaceValue = "";
+    let currentFaceOptions = [];
+    let currentFaceCorrect = 0;
+    
+    function generateFaceQuestion() {
+        let randomIndex = Math.floor(Math.random() * moneyTypes.length);
+        let correctMoney = moneyTypes[randomIndex];
+        currentFaceValue = correctMoney.value;
+        let otherValues = moneyTypes.filter(m => m.value !== currentFaceValue).map(m => m.value);
+        let shuffled = [...otherValues];
+        for(let i=shuffled.length - 1; i > 0; i--){
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        let options = [currentFaceValue, ...shuffled.slice(0, 3)];
+        for(let i=options.length - 1; i > 0; i--){
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+        currentFaceOptions = options;
+        currentFaceCorrect = options.indexOf(currentFaceValue);
+        drawMoneyOnCanvas(currentFaceValue);
+        let optionsDiv = document.getElementById('faceOptions');
+        optionsDiv.innerHTML = '';
+        currentFaceOptions.forEach((opt, idx) => {
+            let label = document.createElement('label');
+            label.className = 'choice-label';
+            label.innerHTML = `<input type="radio" name="faceChoice" value="${idx}" style="margin-right:6px;"> ${opt}`;
+            optionsDiv.appendChild(label);
+        });
+        document.getElementById('faceFeedback').innerHTML = '观察上面的钱币，选择正确的面值！';
+        document.getElementById('faceFeedback').className = 'act-feedback';
+    }
+    
+    function checkFace() {
+        let selected = document.querySelector('input[name="faceChoice"]:checked');
+        if (!selected) {
+            let msg = "请先选择一个答案！";
+            document.getElementById('faceFeedback').innerHTML = `⚠️ ${msg}`;
+            document.getElementById('faceFeedback').className = 'act-feedback wrong-feedback';
+            speak(msg);
+            return;
+        }
+        let val = parseInt(selected.value);
+        let isCorrect = (val === currentFaceCorrect);
+        let fb = document.getElementById('faceFeedback');
+        if (isCorrect) {
+            let msg = `完全正确！这是${currentFaceValue}！你真棒！`;
+            fb.innerHTML = `🎉 ${msg}`;
+            fb.className = 'act-feedback correct-feedback';
+            speak(msg);
+        } else {
+            let msg = `不对哦，这张钱币的面值是 ${currentFaceValue}。再观察一下～`;
+            fb.innerHTML = `❌ ${msg}`;
+            fb.className = 'act-feedback wrong-feedback';
+            speak(msg);
+        }
+    }
+    
+    // ======================== 认一认活动（单位换算选择题） ========================
+    const recogBank = [
+        { text: "5角等于多少元？", options: ["5元", "0元5角", "0.5元", "50角"], correct: 1 },
+        { text: "1元 = ? 角", options: ["1角", "5角", "10角", "100角"], correct: 2 },
+        { text: "10分等于多少角？", options: ["1角", "10角", "0.1角", "100角"], correct: 0 },
+        { text: "一支铅笔0.50元，用几角表示？", options: ["5角", "50角", "0.5角", "0.05角"], correct: 0 },
+        { text: "2元5角 = (  ) 角", options: ["25角", "2.5角", "250角", "7角"], correct: 0 },
+        { text: "1张5元 + 3张1元 = ? 元", options: ["8元", "5元", "6元", "9元"], correct: 0 }
+    ];
+    let currentRecogIdx = 0;
+    function generateRecogQuestion() {
+        let idx = Math.floor(Math.random() * recogBank.length);
+        currentRecogIdx = idx;
+        let q = recogBank[idx];
+        document.getElementById('recogQuestion').innerHTML = `🤔 ${q.text}`;
+        let optionsDiv = document.getElementById('recogOptions');
+        optionsDiv.innerHTML = '';
+        q.options.forEach((opt, i) => {
+            let label = document.createElement('label');
+            label.className = 'choice-label';
+            label.innerHTML = `<input type="radio" name="recogChoice" value="${i}" style="margin-right:6px;"> ${opt}`;
+            optionsDiv.appendChild(label);
+        });
+        document.getElementById('recogFeedback').innerHTML = '选择一个答案，点击确认～';
+        document.getElementById('recogFeedback').className = 'act-feedback';
+    }
+    function checkRecog() {
+        let selected = document.querySelector('input[name="recogChoice"]:checked');
+        if (!selected) {
+            let msg = "请先选择一个答案！";
+            document.getElementById('recogFeedback').innerHTML = `⚠️ ${msg}`;
+            document.getElementById('recogFeedback').className = 'act-feedback wrong-feedback';
+            speak(msg);
+            return;
+        }
+        let val = parseInt(selected.value);
+        let isCorrect = (val === recogBank[currentRecogIdx].correct);
+        let fb = document.getElementById('recogFeedback');
+        let correctAns = recogBank[currentRecogIdx].options[recogBank[currentRecogIdx].correct];
+        if (isCorrect) {
+            let msg = `回答正确！${recogBank[currentRecogIdx].text} 的答案是 ${correctAns}，好厉害！`;
+            fb.innerHTML = `🎉 正确！`;
+            fb.className = 'act-feedback correct-feedback';
+            speak(msg);
+        } else {
+            let msg = `不对哦，正确答案是 ${correctAns}。再试试看～`;
+            fb.innerHTML = `❌ ${msg}`;
+            fb.className = 'act-feedback wrong-feedback';
+            speak(msg);
+        }
+    }
+    
+    // ======================== 换一换活动（填空换算） ========================
+    const exchangeBank = [
+        { text: "3元5角 = (  ) 角", getAnswer: () => 35, unit: "角" },
+        { text: "2元8角 = (  ) 分", getAnswer: () => 280, unit: "分" },
+        { text: "1元6角 = (  ) 角", getAnswer: () => 16, unit: "角" },
+        { text: "5元 = (  ) 分", getAnswer: () => 500, unit: "分" },
+        { text: "7角4分 = (  ) 分", getAnswer: () => 74, unit: "分" },
+        { text: "4元5角 = (  ) 角", getAnswer: () => 45, unit: "角" },
+        { text: "10元 = (  ) 角", getAnswer: () => 100, unit: "角" }
+    ];
+    let currentExchangeObj = null;
+    function generateExchange() {
+        let idx = Math.floor(Math.random() * exchangeBank.length);
+        let item = exchangeBank[idx];
+        currentExchangeObj = { text: item.text, answer: item.getAnswer(), unit: item.unit };
+        document.getElementById('exchangeQuestion').innerHTML = `✨ ${currentExchangeObj.text}`;
+        let inputArea = document.getElementById('exchangeInputArea');
+        inputArea.innerHTML = `<input type="number" id="exchangeAnswer" placeholder="输入数字" class="activity-input" step="1"> <span>${currentExchangeObj.unit}</span>`;
+        document.getElementById('exchangeFeedback').innerHTML = '输入答案，点击检查～';
+        document.getElementById('exchangeFeedback').className = 'act-feedback';
+    }
+    function checkExchange() {
+        let userVal = parseInt(document.getElementById('exchangeAnswer')?.value);
+        let fb = document.getElementById('exchangeFeedback');
+        if (isNaN(userVal)) {
+            let msg = "请输入数字答案！";
+            fb.innerHTML = msg;
+            fb.className = 'act-feedback wrong-feedback';
+            speak(msg);
+            return;
+        }
+        if (userVal === currentExchangeObj.answer) {
+            let msg = `换算正确！${currentExchangeObj.text} 的答案是 ${currentExchangeObj.answer} ${currentExchangeObj.unit}，你真棒！`;
+            fb.innerHTML = '✅ 正确！';
+            fb.className = 'act-feedback correct-feedback';
+            speak(msg);
+        } else {
+            let msg = `不对哦，正确答案是 ${currentExchangeObj.answer} ${currentExchangeObj.unit}，再试试看～`;
+            fb.innerHTML = `❌ ${msg}`;
+            fb.className = 'act-feedback wrong-feedback';
+            speak(msg);
+        }
+    }
+    
+    // ======================== 初始化 ========================
+    function init() {
+        renderProducts();
+        renderMoneyButtons();
+        renderCart();
+        document.getElementById('clearCartBtn').onclick = () => { cart = []; renderCart(); showMessage("购物车已清空", false); };
+        document.getElementById('resetPayBtn').onclick = () => { resetPayment(); showMessage("已重置付款金额", false); };
+        document.getElementById('confirmPayBtn').onclick = confirmPay;
+        document.getElementById('setCustomPayBtn').onclick = setCustomPay;
+        
+        document.getElementById('checkFaceBtn').onclick = checkFace;
+        document.getElementById('newFaceBtn').onclick = generateFaceQuestion;
+        document.getElementById('checkRecogBtn').onclick = checkRecog;
+        document.getElementById('newRecogBtn').onclick = generateRecogQuestion;
+        document.getElementById('checkExchangeBtn').onclick = checkExchange;
+        document.getElementById('newExchangeBtn').onclick = generateExchange;
+        
+        generateFaceQuestion();
+        generateRecogQuestion();
+        generateExchange();
+    }
+    init();
+</script>
+</body>
+</html>
